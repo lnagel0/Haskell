@@ -107,17 +107,6 @@ medFact 0 = 1
 medFact 1 = 1
 medFact x = x * medFact (x-2)
 
-
-
-
-
-
 main :: IO ()
 main =
-    print (medFact 0)
-
-
-
-
-
-
+    print ()
