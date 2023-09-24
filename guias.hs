@@ -1,3 +1,4 @@
+import Distribution.FieldGrammar (List)
 fizzBuzz :: Int -> String
 fizzBuzz x | x == 0 = "Fin"
 fizzBuzz x | mod x 5 == 0 && mod x 3 == 0 = "FizzBuzziano"
@@ -106,6 +107,124 @@ medFact :: Int -> Int
 medFact 0 = 1
 medFact 1 = 1
 medFact x = x * medFact (x-2)
+
+sumatoria :: Int -> Int -> Int
+sumatoria a 1 = a
+sumatoria a b = a^b + sumatoria a (b-1)
+
+sumatoria2 :: Int -> Int -> Int
+sumatoria2 1 b = sumatoria 1 b
+sumatoria2 a b = sumatoria a b + sumatoria2 (a - 1) b
+
+menorDivisor :: Int -> Int
+menorDivisor a | mod a 2 == 0 = 2
+menorDivisor a | mod a 3 == 0 = 3
+menorDivisor a | mod a 5 == 0 = 5
+menorDivisor a | mod a 7 == 0 = 7
+menorDivisor a = a
+
+esPrimo :: Int -> Bool
+esPrimo 1 = False
+esPrimo 2 = True
+esPrimo 3 = True
+esPrimo 5 = True
+esPrimo 7 = True
+esPrimo a | mod a 2 == 0 = False
+esPrimo a | mod a 3 == 0 = False
+esPrimo a | mod a 5 == 0 = False
+esPrimo a | mod a 7 == 0 = False
+esPrimo a = True
+
+longitud :: [t] -> Int
+longitud [] = 0
+longitud (x:xs) = 1 + longitud xs
+
+ultimo :: [t] -> t
+ultimo (x:xs) = (x:xs)!!(longitud (x:xs) - 1)
+
+principio :: [t] -> [t]
+principio (x:[]) = []
+principio (x:xs) = x : principio xs
+
+reverso :: [t] -> [t]
+reverso [] = []
+reverso [x] = [x]
+reverso (x:xs) = reverso xs ++ [x]
+
+pertenece :: (Eq t) => t -> [t] -> Bool
+pertenece _ [] = False
+pertenece a (x:xs) | a == x = True
+                   | otherwise = pertenece a xs
+
+todosIguales :: (Eq t) => [t] -> Bool
+todosIguales [] = False
+todosIguales [_] = True
+todosIguales (x:y:xs) | x == y = todosIguales (y:xs)
+                      | otherwise = False
+
+todosDistintos :: (Eq t) => [t] -> Bool
+todosDistintos [] = False
+todosDistintos [_] = True
+todosDistintos (x:xs) | pertenece x xs = False
+                      | pertenece x xs == False = todosDistintos xs
+                      | otherwise = False
+
+hayRepetidos :: (Eq t) => [t] -> Bool
+hayRepetidos [] = False
+hayRepetidos [_] = False
+hayRepetidos (x:xs) | pertenece x xs = True
+                    | pertenece x xs == False = hayRepetidos xs
+                    | otherwise = False
+
+quitar :: (Eq t) => t -> [t] -> [t]
+quitar _ [] = []
+quitar a [x] | a == x = []
+             | otherwise = []
+quitar a (x:xs) | a == x = xs
+                | otherwise = x : quitar a xs
+
+quitarTodos :: (Eq t) => t -> [t] -> [t]
+quitarTodos _ [] = []
+quitarTodos a [x] | a == x = []
+             | otherwise = []
+quitarTodos a (x:xs) | a == x = quitarTodos a xs
+                | otherwise = x : quitarTodos a xs
+
+eliminarRepetidos :: (Eq t) => [t] -> [t]
+eliminarRepetidos [] = []
+eliminarRepetidos [x] = [x]
+eliminarRepetidos (x:xs) | pertenece x xs = eliminarRepetidos xs
+                         | otherwise = x : eliminarRepetidos xs
+
+mismosElementos :: (Eq t) => [t] -> [t] -> Bool
+mismosElementos [x] [y] | x == y = True
+mismosElementos (x:xs) (y:ys) | pertenece x (eliminarRepetidos (y:ys)) && pertenece y (eliminarRepetidos (x:xs)) = mismosElementos xs ys
+                              | otherwise = False
+--Incompleto
+
+capicua :: (Eq t) => [t] -> Bool
+capicua [] = False
+capicua [x] = True
+capicua (x:xs) | (x:xs) == reverso (x:xs) = True
+               | otherwise = False
+
+sumatoria3 :: [Integer] -> Integer
+sumatoria3 [x] = x
+sumatoria3 (x:xs) = x + sumatoria3 xs
+
+productoria :: [Integer] -> Integer
+productoria [] = 0
+productoria [x] = x
+productoria (x:xs) = x * productoria xs
+
+maximo :: [Integer] -> Integer
+maximo [x] = x
+maximo (x:y:xs) | x >= y = maximo (x:xs)
+                | x <= y = maximo (y:xs)
+
+sumarN :: Integer -> [Integer] -> [Integer]
+sumarN a [x] = [x+a]
+sumarN a (x:xs) = (x+a) : sumarN a xs
 
 main :: IO ()
 main =
