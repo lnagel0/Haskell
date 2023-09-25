@@ -222,9 +222,84 @@ maximo [x] = x
 maximo (x:y:xs) | x >= y = maximo (x:xs)
                 | x <= y = maximo (y:xs)
 
-sumarN :: Integer -> [Integer] -> [Integer]
+sumarN :: Int -> [Int] -> [Int]
 sumarN a [x] = [x+a]
 sumarN a (x:xs) = (x+a) : sumarN a xs
+
+sumarElPrimero :: [Int] -> [Int]
+sumarElPrimero [x] = [x*2]
+sumarElPrimero (x:xs) = sumarN x (x:xs)
+
+sumarElUltimo :: [Int] -> [Int]
+sumarElUltimo [x] = [x*2]
+sumarElUltimo (x:xs) = sumarN (last (x:xs)) (x:xs)
+
+pares :: [Integer] -> [Integer]
+pares [0] = [0]
+pares [x] | mod x 2 == 0 = [x]
+          | otherwise = []
+pares (x:xs) | mod x 2 == 0 = x : pares xs
+             | otherwise = pares xs
+
+multiplosDeN :: Integer -> [Integer] -> [Integer]
+multiplosDeN a [] = []
+multiplosDeN a (x:xs) | mod x a == 0 = x : multiplosDeN a xs
+                      | otherwise = multiplosDeN a xs
+
+ordenar :: [Integer] -> [Integer]
+ordenar [x] = [x]
+ordenar (x:y:xs) | x >= y = y : ordenar (x:xs)
+                 | otherwise = x : ordenar (y:xs)
+
+sacarBlancosRepetidos :: [Char] -> [Char]
+sacarBlancosRepetidos [a] = [a]
+sacarBlancosRepetidos (x:y:xs) | x == ' ' && x == y = sacarBlancosRepetidos (y:xs)
+                               | otherwise = x : sacarBlancosRepetidos (y:xs)
+
+contarPalabras :: [Char] -> Integer
+contarPalabras [x] = 1
+contarPalabras (x:xs) | x == ' ' = 1 + contarPalabras (sacarBlancosRepetidos xs)
+                      | otherwise = contarPalabras (sacarBlancosRepetidos xs)
+
+--Chequea si dos duplas son unicas
+duplasDist :: (String, String) -> (String, String) -> Bool
+duplasDist (a, b) (c, d) | (a == c && b == d) || (b == c && a == d) = False
+                        | otherwise = True
+
+--Chequea si una dupla pertenece a una lista de duplas
+duplaLista :: (String, String) -> [(String, String)] -> Bool
+duplaLista (a, b) [(c, d)] | duplasDist (a, b) (c, d) == True = False
+duplaLista (a, b) (x:xs) | duplasDist (a, b) x == True = duplaLista (a, b) xs
+                         | otherwise = True
+
+--Chequea si los dos elementos de una dupla son unicos
+duplaUnica :: (String, String) -> Bool
+duplaUnica (a, b) | a /= b = True
+                  | otherwise = False
+
+relacionesValidas :: [(String, String)] -> Bool
+relacionesValidas [x] | duplaUnica x = True
+                      | otherwise = False
+relacionesValidas (x:xs) | duplaUnica x == True && duplaLista x xs == False = relacionesValidas xs
+                         | otherwise = False
+
+eliminaRepetidos :: [String] -> [String]
+eliminaRepetidos [] = []
+eliminaRepetidos [x] = [x]
+eliminaRepetidos (x:xs) | elem x xs = eliminaRepetidos xs
+                        | otherwise = x : eliminarRepetidos xs
+
+personas :: [(String, String)] -> [String]
+personas [(a, b)] = [a, b]
+personas (x:xs) = eliminaRepetidos (fst x : snd x : personas xs)
+
+amigosDe :: String -> [(String, String)] -> [String]
+amigosDe a [(b, c)] | a == b = [c]
+                    | a == c = [b]
+                    | otherwise = []
+amigosDe a (x:xs) | a == fst x = snd x : amigosDe a xs
+                  | a == snd x = fst x : amigosDe a xs
+                  | otherwise = amigosDe a xs
 
 main :: IO ()
 main =
