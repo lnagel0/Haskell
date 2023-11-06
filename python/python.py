@@ -62,18 +62,26 @@ def nombre_largo(x):
 def es_bisiesto(x):
     return (x % 400 == 0) or ((x % 4 == 0) and not(x % 100 == 0))
 
+def peso_pino(x):
+    if (x*100 >= 300):
+        return 900 + (((x*100) - 300) * 2)
+    else:
+        return (x*100) * 3
 
+def es_peso_util(x):
+    if x >= 400 and x <= 1000:
+        return True
+    else:
+        return False
 
+def sirve_pino(x):
+    return es_peso_util(peso_pino(x))
 
-
-
-
-
-
-
-
-
-
+def devolver_doble_si_par(x):
+    if x % 2 == 0:
+        return x*2
+    else:
+        return x
 
 
 
