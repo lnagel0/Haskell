@@ -83,7 +83,29 @@ def devolver_doble_si_par(x):
     else:
         return x
 
+def lindo_nombre(x):
+    if len(x) >= 5:
+        return "Tu nombre tiene muchas letras. Cambiatelo."
+    else:
+        return "Tu nombre tiene menos de 5 caracteres."
 
+def eco():
+    contador = 0
+    while contador < 10:
+        contador += 1
+        print("eco")
+    return
 
+def unoAlDiez():
+    contador = 0
+    while contador < 10:
+        contador += 1
+        print(contador)
+    return
 
-
+def countdown(x):
+    while x > 0:
+        print(x)
+        x -= 1
+    print("despegue")
+    return
